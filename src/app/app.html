@@ -1,0 +1,51 @@
+<div class="layout">
+  <aside class="panel">
+    <h1>Station Routes</h1>
+    <p class="hint">
+      Select two Stations to draw the driving Route between them.
+    </p>
+
+    <ul class="station-list">
+      @for (station of stations; track station.id) {
+        <li>
+          <button
+            class="station-btn"
+            [class.selected]="from()?.id === station.id || to()?.id === station.id"
+            [class.origin]="from()?.id === station.id"
+            (click)="selectStation(station)"
+          >
+            @if (from()?.id === station.id) {
+              <span class="badge">A</span>
+            } @else if (to()?.id === station.id) {
+              <span class="badge badge-b">B</span>
+            }
+            {{ station.name }}
+          </button>
+        </li>
+      }
+    </ul>
+
+    @if (routeLoading()) {
+      <p class="status">Fetching route…</p>
+    } @if (routeError()) {
+      <p class="status error">{{ routeError() }}</p>
+    } @if (route()) {
+      <p class="status route-info">
+        {{ routeKm() }} km · {{ routeMinutes() }} min
+      </p>
+    }
+
+    @if (from() || to()) {
+      <button class="reset" (click)="reset()">Reset</button>
+    }
+  </aside>
+
+  <main class="map-area">
+    <app-map
+      style="mapbox://styles/mapbox/streets-v12"
+      [center]="[103.7665, 1.3888]"
+      [zoom]="13.5"
+      (mapReady)="onMapReady($event)"
+    />
+  </main>
+</div>
