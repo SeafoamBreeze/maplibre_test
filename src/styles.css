@@ -20,6 +20,18 @@ body {
   inset: 0;
 }
 
+/* Station markers on the map: purple circles */
+.station-marker {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #a855f7;
+  border: 2px solid white;
+  box-shadow: 0 1px 4px rgb(0 0 0 / 0.4);
+  cursor: pointer;
+  padding: 0;
+}
+
 .map-error {
   position: absolute;
   top: 12px;

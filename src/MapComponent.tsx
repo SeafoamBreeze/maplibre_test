@@ -13,15 +13,20 @@ interface MapComponentProps {
   /** [lng, lat] — pass a stable reference; a new array rebuilds the map. */
   center: [number, number];
   zoom: number;
+  /** Receives the ready maplibregl.Map exactly once. */
+  onMapReady?: (map: maplibregl.Map) => void;
 }
 
 /**
  * Thin wrapper around a maplibregl.Map instance.
  * We own the map lifecycle: creation, resize, destruction (ADR-0001).
  */
-export default function MapComponent({ style, center, zoom }: MapComponentProps) {
+export default function MapComponent({ style, center, zoom, onMapReady }: MapComponentProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [styleError, setStyleError] = useState<string | null>(null);
+  // Keep the latest callback without re-running the lifecycle effect.
+  const onMapReadyRef = useRef(onMapReady);
+  onMapReadyRef.current = onMapReady;
 
   useEffect(() => {
     let map: maplibregl.Map | null = null;
@@ -40,6 +45,7 @@ export default function MapComponent({ style, center, zoom }: MapComponentProps)
           zoom,
         });
         map.addControl(new maplibregl.NavigationControl(), 'top-right');
+        map.on('load', () => onMapReadyRef.current?.(map!));
       })
       .catch((err) => {
         // Surface a broken token / style as a visible error, not a blank map.
