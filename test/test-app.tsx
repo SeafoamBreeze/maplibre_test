@@ -1,4 +1,5 @@
 import { render, cleanup } from '@testing-library/react';
+import { act } from 'react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import * as maplibregl from 'maplibre-gl';
 import App from '../src/App';
@@ -11,6 +12,8 @@ import App from '../src/App';
 const constructed: maplibregl.MapOptions[] = [];
 let removed = 0;
 const markers: { element: HTMLElement; coords: [number, number] }[] = [];
+const sources = new Set<string>();
+const layers = new Set<string>();
 
 vi.mock('maplibre-gl', () => ({
   setWorkerUrl: vi.fn(),
@@ -19,6 +22,9 @@ vi.mock('maplibre-gl', () => ({
     setText() {
       return this;
     }
+  },
+  LngLatBounds: class {
+    extend() {}
   },
   Marker: class {
     element: HTMLElement;
@@ -46,6 +52,25 @@ vi.mock('maplibre-gl', () => ({
       // Fire `load` synchronously so map-ready handlers run in tests.
       if (event === 'load') cb();
     }
+    getLayer(id: string) {
+      return layers.has(id) ? {} : null;
+    }
+    getSource(id: string) {
+      return sources.has(id) ? { setData() {} } : null;
+    }
+    addSource(id: string) {
+      sources.add(id);
+    }
+    addLayer(def: { id: string }) {
+      layers.add(def.id);
+    }
+    removeLayer(id: string) {
+      layers.delete(id);
+    }
+    removeSource(id: string) {
+      sources.delete(id);
+    }
+    fitBounds() {}
     remove() {
       removed++;
     }
@@ -58,6 +83,8 @@ beforeEach(() => {
   constructed.length = 0;
   removed = 0;
   markers.length = 0;
+  sources.clear();
+  layers.clear();
   vi.stubGlobal(
     'fetch',
     vi.fn().mockResolvedValue({ ok: true, json: async () => minimalStyle }),
@@ -86,6 +113,44 @@ describe('App', () => {
       expect(marker, `marker for ${station.name}`).toBeDefined();
       expect(marker!.coords).toEqual(station.coords);
     }
+  });
+
+  it('draws the Route line when the Directions API responds', async () => {
+    const { STATIONS } = await import('../src/stations');
+    const [from, to] = STATIONS;
+    const fetchMock = vi.fn(async (input: unknown) => {
+      const url = String(input);
+      if (url.includes('/directions/')) {
+        return {
+          ok: true,
+          json: async () => ({
+            routes: [
+              {
+                geometry: { type: 'LineString', coordinates: [[1, 2], [3, 4]] },
+                distance: 1234,
+                duration: 567,
+              },
+            ],
+          }),
+        };
+      }
+      return { ok: true, json: async () => minimalStyle };
+    });
+    vi.stubGlobal('fetch', fetchMock);
+
+    const { container } = render(<App />);
+    // Select the pair: first button = origin, second = destination.
+    const buttons = container.querySelectorAll<HTMLButtonElement>('.station-btn');
+    // Separate act() flushes: the second selection must see the first's state.
+    await act(async () => buttons[0].click());
+    await act(async () => buttons[1].click());
+
+    await vi.waitFor(() => expect(layers.has('route-line')).toBe(true));
+    expect(sources.has('route')).toBe(true);
+    const directionsCall = fetchMock.mock.calls.map((c) => String(c[0])).find((u) =>
+      u.includes('/directions/'),
+    );
+    expect(directionsCall).toContain(`${from.coords[0]},${from.coords[1]};${to.coords[0]},${to.coords[1]}`);
   });
 
   it('shows a visible error when the Mapbox style request fails (e.g. bad token)', async () => {
