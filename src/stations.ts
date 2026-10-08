@@ -6,11 +6,10 @@ export interface Station {
 }
 
 /**
- * Hardcoded Stations near Yio Chu Kang MRT, Singapore.
- * PLACEHOLDERS — to be replaced with real Station names & coordinates.
+ * Hardcoded Stations in the Yio Chu Kang / Lentor area, Singapore.
  */
 export const STATIONS: Station[] = [
-  { id: 'a', name: 'Station A (placeholder)', coords: [103.7665, 1.3888] },
-  { id: 'b', name: 'Station B (placeholder)', coords: [103.7750, 1.3960] },
-  { id: 'c', name: 'Station C (placeholder)', coords: [103.7580, 1.3820] },
+  { id: 'a', name: 'Yio Chu Kang MRT', coords: [103.84495065307375, 1.3821109508497351] },
+  { id: 'b', name: 'NCS', coords: [103.84425327876374, 1.3881173433648717] },
+  { id: 'c', name: 'Lentor MRT', coords: [103.83691568084244, 1.3848830537685093] },
 ];

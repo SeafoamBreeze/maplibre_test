@@ -100,8 +100,8 @@ describe('App', () => {
   it('constructs the map on mount with the expected center and zoom', async () => {
     render(<App />);
     await vi.waitFor(() => expect(constructed).toHaveLength(1));
-    expect(constructed[0].center).toEqual([103.7665, 1.3888]);
-    expect(constructed[0].zoom).toBe(13.5);
+    expect(constructed[0].center).toEqual([103.842, 1.385]);
+    expect(constructed[0].zoom).toBe(14.5);
   });
 
   it('renders a marker for every Station at its coordinates', async () => {

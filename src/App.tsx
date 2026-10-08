@@ -12,8 +12,8 @@ import { fetchRoute, RouteGeometry } from './route-service';
 const MAP_STYLE = 'mapbox://styles/mapbox/streets-v12';
 // Module-level constants: stable references, so App re-renders never
 // tear down and rebuild the map.
-const CENTER: [number, number] = [103.7665, 1.3888];
-const ZOOM = 13.5;
+const CENTER: [number, number] = [103.8420, 1.3850];
+const ZOOM = 14.5;
 
 export default function App() {
   const mapRef = useRef<maplibregl.Map | null>(null);
