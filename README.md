@@ -1,59 +1,35 @@
-# MaplibreTest
+# Maplibre Station Map
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.2.2.
+A React (Vite + TypeScript) web app that displays hardcoded Stations on a MapLibre map and draws vehicle Routes between pairs of Stations, using Mapbox as the single map/style/routing provider.
 
-## Development server
-
-To start a local development server, run:
+## Getting started
 
 ```bash
-ng serve
+npm install
+cp .env.example .env   # put your Mapbox access token in VITE_MAPBOX_TOKEN
+npm start
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Open the URL Vite prints (default `http://localhost:5173`).
 
-## Code scaffolding
+## Scripts
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+| Command           | What it does                          |
+| ----------------- | ------------------------------------- |
+| `npm start`       | Dev server with hot reload            |
+| `npm test`        | Run the Vitest suite once             |
+| `npm run typecheck` | Type-check without emitting         |
+| `npm run build`   | Production build into `dist/`         |
+| `npm run preview` | Serve the production build locally    |
 
-```bash
-ng generate component component-name
-```
+## Configuration
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+The Mapbox access token is read from `VITE_MAPBOX_TOKEN` in a gitignored `.env` file (Vite-native env handling). A missing or invalid token surfaces as a visible error on the map.
 
-```bash
-ng generate --help
-```
+## Testing
 
-## Building
+Tests live in `test/` with a `test-` filename prefix and drive the app through a single seam: the root `App` component. `maplibregl.Map` and `fetch` are stubbed (no WebGL in jsdom).
 
-To build the project run:
+## Domain
 
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+See `CONTEXT.md` for the glossary (Station, Route) and `docs/adr/` for architecture decisions.

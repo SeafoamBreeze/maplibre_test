@@ -1,0 +1,62 @@
+{
+  "hash": "0eebac1c",
+  "configHash": "570df6d8",
+  "lockfileHash": "3bb3ec86",
+  "browserHash": "0fcae190",
+  "optimized": {
+    "@angular/common/http": {
+      "src": "../../../../../../node_modules/@angular/common/fesm2022/http.mjs",
+      "file": "@angular_common_http.js",
+      "fileHash": "dddaeb5a",
+      "needsInterop": false
+    },
+    "@angular/core": {
+      "src": "../../../../../../node_modules/@angular/core/fesm2022/core.mjs",
+      "file": "@angular_core.js",
+      "fileHash": "1f267a08",
+      "needsInterop": false
+    },
+    "@angular/platform-browser": {
+      "src": "../../../../../../node_modules/@angular/platform-browser/fesm2022/platform-browser.mjs",
+      "file": "@angular_platform-browser.js",
+      "fileHash": "098ff778",
+      "needsInterop": false
+    },
+    "@angular/router": {
+      "src": "../../../../../../node_modules/@angular/router/fesm2022/router.mjs",
+      "file": "@angular_router.js",
+      "fileHash": "65e96061",
+      "needsInterop": false
+    },
+    "maplibre-gl": {
+      "src": "../../../../../../node_modules/maplibre-gl/dist/maplibre-gl.mjs",
+      "file": "maplibre-gl.js",
+      "fileHash": "ac1d6219",
+      "needsInterop": false
+    },
+    "rxjs": {
+      "src": "../../../../../../node_modules/rxjs/dist/esm5/index.js",
+      "file": "rxjs.js",
+      "fileHash": "a030e077",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "core-CABa1ZRZ": {
+      "file": "core-CABa1ZRZ.js",
+      "isDynamicEntry": false
+    },
+    "esm5-DYNb5pjm": {
+      "file": "esm5-DYNb5pjm.js",
+      "isDynamicEntry": false
+    },
+    "http-B_HFEXBD": {
+      "file": "http-B_HFEXBD.js",
+      "isDynamicEntry": false
+    },
+    "platform-browser-DY6mdexJ": {
+      "file": "platform-browser-DY6mdexJ.js",
+      "isDynamicEntry": false
+    }
+  }
+}

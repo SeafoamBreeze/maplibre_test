@@ -1,6 +1,6 @@
 # Maplibre Station Map
 
-An Angular web app that displays hardcoded Stations on a MapLibre map and draws vehicle Routes between pairs of Stations.
+An React web app that displays hardcoded Stations on a MapLibre map and draws vehicle Routes between pairs of Stations.
 
 ## Language
 
