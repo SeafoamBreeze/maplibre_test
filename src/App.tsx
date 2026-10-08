@@ -134,6 +134,11 @@ export default function App() {
       const el = document.createElement('button');
       el.className = 'station-marker';
       el.setAttribute('aria-label', station.name);
+      // Name label rendered above the marker dot.
+      const label = document.createElement('span');
+      label.className = 'station-label';
+      label.textContent = station.name;
+      el.appendChild(label);
       el.addEventListener('click', () => selectStationRef.current(station));
       markerEls.current.set(station.id, el);
       return new maplibregl.Marker({ element: el })

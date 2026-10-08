@@ -112,6 +112,7 @@ describe('App', () => {
       const marker = markers.find((m) => m.element.getAttribute('aria-label') === station.name);
       expect(marker, `marker for ${station.name}`).toBeDefined();
       expect(marker!.coords).toEqual(station.coords);
+      expect(marker!.element.querySelector('.station-label')?.textContent).toBe(station.name);
     }
   });
 
